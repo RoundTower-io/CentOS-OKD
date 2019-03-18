@@ -1,7 +1,9 @@
 variable "do_token" {
   default = ""
 }
-
+variable "ssh_key" {
+  default = ""
+}
 variable "rsa_pass" {
   default = ""
 }
@@ -17,7 +19,7 @@ resource "digitalocean_droplet" "okd00" {
   region = "nyc3"
   size = "c-8"
   name = "okd00"
-  ssh_keys = [ "59:78:f2:91:87:2b:de:df:03:e4:91:c8:8c:94:c8:a2" ]
+  ssh_keys = [ "${var.ssh_key}" ]
 
   provisioner "remote-exec" {
     connection {
@@ -30,7 +32,7 @@ resource "digitalocean_droplet" "okd00" {
       "yum -y update ",
       "yum -y install git docker net-tools",
       "cd && git clone https://github.com/gshipley/installcentos.git && ",
-      "cd ~/installcentos && export USERNAME=gcw && export && PASSWORD='.....gcwdemo'",
+      "cd ~/installcentos",
       "INTERACTIVE=false bash ./install-openshift.sh",
     ]
   }
